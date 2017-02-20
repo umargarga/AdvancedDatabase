@@ -1,0 +1,47 @@
+USE AdventureWorksLT2012
+GO
+
+CREATE TABLE dbo.demo_string_datatype
+(
+demo_char char(100),
+demo_varchar varchar(100),
+demo_nchar nchar(100),
+demo_nvarchar nvarchar(100)
+);
+GO
+
+INSERT INTO demo_string_datatype VALUES
+('Nono','Nono','Nono','Nono'),
+(N'Ñoño',N'Ñoño',N'Ñoño',N'Ñoño'),
+('Ñoño','Ñoño','Ñoño','Ñoño')
+GO
+
+CREATE TABLE dbo.demo_datetime_datatype(
+	demo_date date,
+	demo_time time,
+	demo_smalldatetime smalldatetime,
+	demo_datetime datetime,
+	demo_datetime2 datetime2,
+	demo_datetimeoffset datetimeoffset
+);
+GO
+
+INSERT INTO demo_datetime_datatype 
+VALUES ('2017-02-14 10:15:50.500','2017-02-14 10:15:50.500','2017-02-14 10:15:50.500','2017-02-14 10:15:50.500','2017-02-14 10:15:50.500','2017-02-14 10:15:50.500');
+
+
+CREATE TABLE dbo.demo_numeric_datatype
+(
+demo_smallint smallint,
+demo_int int,
+demo_bigint bigint,
+demo_decimal decimal(10,5),
+demo_numeric numeric(10,5),
+demo_smallmoney smallmoney,
+demo_money money
+);
+GO
+
+INSERT INTO demo_numeric_datatype VALUES 
+(1000.123456789,1000.123456789,1000.123456789,1000.123456789,1000.123456789,1000.123456789,1000.123456789);
+GO
