@@ -1,0 +1,25 @@
+USE AdventureWorksLT2012
+GO
+
+SELECT * FROM SalesLT.Customer
+
+SELECT FirstName, LastName, CompanyName, EmailAddress FROM SalesLT.Customer
+
+SELECT DISTINCT * FROM dbo.demo_numeric_datatype
+
+SELECT FirstName, LastName, EmailAddress FROM SalesLT.Customer WHERE LEFT(FirstName, 1) LIKE 'A'
+
+SELECT FirstName, LastName, EmailAddress FROM SalesLT.Customer WHERE Phone IS NOT NULL
+
+
+ SELECT GetDate() AS CurrentDateTime, CONVERT(date, GetDate()) AS CurrentDate, 
+ CONVERT(time, GetDate()) AS CurrentTime, year(GetDate()) AS CurrentYear,
+ month(GetDate()) AS CurrentMonth, day(GetDate()) AS CurrentDay
+
+SELECT FirstName, LastName, EmailAddress FROM SalesLT.Customer WHERE LEN(FirstName) > 10
+
+SELECT FirstName, LastName, EmailAddress FROM SalesLT.Customer WHERE CHARINDEX('@', EmailAddress) > 0
+
+SELECT SalesOrderID, OrderDate, TotalDue FROM SalesLT.SalesOrderHeader 
+WHERE DATEDIFF(day, OrderDate, GetDate()) < 7
+
