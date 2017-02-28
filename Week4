@@ -1,0 +1,95 @@
+USE AdventureWorksLT2012;
+GO
+
+-- Question 2
+SELECT a.ProductID, a.Name, a.ProductNumber, b.Name AS CategoryName FROM SalesLT.Product a 
+	INNER JOIN SalesLT.ProductCategory b ON a.ProductCategoryID = b.ProductCategoryID
+
+-- Question 3
+SELECT a.ProductID, a.Name, a.SellStartDate, a.SellEndDate, a.DiscontinuedDate, b.ModifiedDate, b.Name
+	 FROM SalesLT.Product a INNER JOIN SalesLT.ProductCategory b 
+	 ON a.ProductCategoryID = b.ProductCategoryID
+ 
+ -- Question 4
+ SELECT a.ProductID, a.Name, a.SellStartDate, a.SellEndDate, a.DiscontinuedDate, b.ModifiedDate, b.Name
+	 FROM SalesLT.Product a INNER JOIN SalesLT.ProductCategory b 
+	 ON a.ProductCategoryID = b.ProductCategoryID WHERE b.Name = 'Road Bikes'
+
+ -- Question 5
+ SELECT a.ProductID, a.Name, a.SellStartDate, a.SellEndDate, a.DiscontinuedDate, b.ModifiedDate, b.Name
+	 FROM SalesLT.Product a INNER JOIN SalesLT.ProductCategory b 
+	 ON a.ProductCategoryID = b.ProductCategoryID 
+	 WHERE b.Name LIKE 'Mountain Bikes' OR 
+	 b.Name LIKE 'Road Bikes' OR b.Name LIKE 'Touring Bikes'
+
+ -- Question 6
+ SELECT SalesOrderID, OrderDate, ShipDate, Status, SubTotal, TaxAmt, Freight, TotalDue FROM
+	  SalesLT.SalesOrderHeader
+
+  -- Question 7
+ SELECT a.SalesOrderID, b.FirstName+' '+b.LastName AS CustomerName, b.EmailAddress, a.OrderDate, 
+	 a.ShipDate, a.Status, a.SubTotal, a.TaxAmt, a.Freight, 
+	 a.TotalDue FROM SalesLT.SalesOrderHeader a INNER JOIN SalesLT.Customer b 
+	 ON a.CustomerID = b.CustomerID
+
+ -- Question 8
+SELECT * FROM SalesLT.Customer a LEFT OUTER JOIN SalesLT.SalesOrderHeader b 
+	ON a.CustomerID = b.CustomerID WHERE b.CustomerID IS NULL
+
+-- Question 9
+SELECT b.SalesOrderID, a.FirstName+' '+a.LastName as 'Full Name', a.CompanyName, a.EmailAddress,
+	b.OrderDate, b.TotalDue FROM SalesLT.Customer a 
+	INNER JOIN SalesLT.SalesOrderHeader b ON a.CustomerID = b.CustomerID WHERE
+	CONVERT(date, b.OrderDate) < '2004-01-01'
+
+-- Question 10
+SELECT DISTINCT c.ProductNumber FROM SalesLT.SalesOrderHeader a 
+	INNER JOIN SalesLT.SalesOrderDetail b ON a.SalesOrderID = b.SalesOrderID 
+	INNER JOIN SalesLT.Product c ON c.ProductID = b.ProductID
+
+-- Question 11
+SELECT a.FirstName+' '+a.LastName AS 'Full Name', a.CompanyName, a.EmailAddress FROM
+	 SalesLT.Customer a INNER JOIN SalesLT.CustomerAddress b ON b.CustomerID = a.CustomerID
+	 INNER JOIN SalesLT.Address c ON c.AddressID = b.AddressID 
+	 WHERE c.CountryRegion = 'United Kingdom'
+
+ --Question 12
+SELECT a.FirstName+' '+a.LastName AS 'Full Name', a.CompanyName, a.EmailAddress, c.AddressLine1,
+	 c.City, c.PostalCode, c.StateProvince, c.CountryRegion FROM
+	 SalesLT.Customer a INNER JOIN SalesLT.CustomerAddress b ON b.CustomerID = a.CustomerID
+	 INNER JOIN SalesLT.Address c ON c.AddressID = b.AddressID
+
+ --Question 13
+ SELECT * FROM SalesLT.SalesOrderHeader WHERE OrderDate = 
+	 (SELECT MAX(o.OrderDate) FROM SalesLT.SalesOrderHeader o)
+
+--Question 14
+SELECT SalesOrderID, OrderDate, ShipDate, Status, SubTotal, TaxAmt, Freight, TotalDue
+	 FROM SalesLT.SalesOrderHeader WHERE OrderDate = 
+	 (SELECT MIN(o.OrderDate) FROM SalesLT.SalesOrderHeader o)
+
+--Question 15
+SELECT SalesOrderID, OrderDate, ShipDate, Status, SubTotal, TaxAmt, Freight, TotalDue
+	 FROM SalesLT.SalesOrderHeader WHERE OrderDate = 
+	 (SELECT MIN(o.OrderDate) FROM SalesLT.SalesOrderHeader o)
+
+ --Question 16
+ SELECT a.ProductID, a.Name, a.ProductNumber FROM SalesLT.Product a 
+	 LEFT OUTER JOIN SalesLT.SalesOrderDetail b ON b.ProductID = a.ProductID
+	 WHERE b.OrderQty > 100
+
+--Question 17
+SELECT a.ProductID, a.Name, a.ProductNumber  FROM SalesLT.Product a
+	LEFT OUTER JOIN SalesLT.SalesOrderDetail b ON b.ProductID = a.ProductID
+	LEFT OUTER JOIN SalesLT.SalesOrderHeader c ON c.SalesOrderID = b.SalesOrderID
+	WHERE c.SalesOrderID IS NOT NULL AND b.UnitPrice > 1000
+
+--Question 18
+SELECT c.FirstName+' '+c.LastName AS 'Full Name', c.CompanyName, c.EmailAddress, o.CustomerID 
+	FROM SalesLT.Customer c LEFT OUTER JOIN SalesLT.SalesOrderHeader o 
+	ON o.CustomerID = c.CustomerID WHERE o.CustomerID IS NULL
+
+--Question 19
+SELECT c.FirstName+' '+c.LastName AS 'Full Name', c.CompanyName, c.EmailAddress
+	FROM SalesLT.Customer c WHERE EXISTS (SELECT * FROM SalesLT.SalesOrderHeader 
+	WHERE CustomerID != c.CustomerID)
