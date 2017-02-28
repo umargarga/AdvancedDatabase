@@ -91,5 +91,15 @@ SELECT c.FirstName+' '+c.LastName AS 'Full Name', c.CompanyName, c.EmailAddress,
 
 --Question 19
 SELECT c.FirstName+' '+c.LastName AS 'Full Name', c.CompanyName, c.EmailAddress
-	FROM SalesLT.Customer c WHERE EXISTS (SELECT * FROM SalesLT.SalesOrderHeader 
-	WHERE CustomerID != c.CustomerID)
+	FROM SalesLT.Customer c WHERE NOT EXISTS (SELECT * FROM SalesLT.SalesOrderHeader 
+	WHERE CustomerID = c.CustomerID)
+
+--Question 20
+SELECT c.FirstName+' '+c.LastName AS 'Full Name', c.CompanyName, c.EmailAddress, 
+ad.AddressLine1+', '+ad.StateProvince+', '+ad.PostalCode+', '+ad.CountryRegion AS 'Full Address'
+	FROM SalesLT.Customer c 
+	INNER JOIN SalesLT.CustomerAddress a ON a.CustomerID = c.CustomerID
+	INNER JOIN SalesLT.Address ad ON ad.AddressID = a.AddressID
+	INNER JOIN SalesLT.SalesOrderHeader s ON s.CustomerID = c.CustomerID
+	WHERE CONVERT(date, s.OrderDate) <= '2004-01-01'
+
